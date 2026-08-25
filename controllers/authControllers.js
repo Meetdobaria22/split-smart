@@ -4,19 +4,6 @@ import validator from 'validator'
 import { isPasswordStrong } from '../utils/validator.js';
 import jwt from 'jsonwebtoken';
 
-
-/* status refrence
-==-==-==-==-==-==-==-==-==
-Bad/missing input               -> 400
-Not logged in / wrong password  -> 401
-Logged in but not allowed       -> 403
-Doesn't exist                   -> 404
-Already exists / conflicts      -> 409
-Everything else genuinely broke -> 500
-*/
-
-
-
 export const signup = async (req, res) => { // SIGN-UP CONTROLLER
     try {
         console.log('BODY:', req.body);
@@ -102,7 +89,7 @@ export const login = async (req, res) => { // LOGIN CONTROLLER
         }
         console.log('SECRET:', process.env.JWT_SECRET);
         const token = jwt.sign( 
-            {used_id : user.user_id},
+            {user_id : user.user_id},
             process.env.JWT_SECRET,
             {expiresIn : '7d'}
         );

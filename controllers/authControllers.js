@@ -6,8 +6,6 @@ import jwt from 'jsonwebtoken';
 
 export const signup = async (req, res) => { // SIGN-UP CONTROLLER
     try {
-        console.log('BODY:', req.body);
-        console.log('HEADERS:', req.headers);
 
         const { username, email, password } = req.body;
 
@@ -56,9 +54,6 @@ export const signup = async (req, res) => { // SIGN-UP CONTROLLER
 
 export const login = async (req, res) => { // LOGIN CONTROLLER
     try {
-        console.log('BODY:', req.body);
-        console.log('HEADERS:', req.headers);
-
         const { email, password } = req.body;
         if (!password) {
             return res.status(400).json({ message: 'Please enter the password' }) //IF PASSWORD NOT TYPED
@@ -79,13 +74,13 @@ export const login = async (req, res) => { // LOGIN CONTROLLER
 
         // Check if user exist
         if (!user) {
-            return res.status(404).json({ message: 'User not found' });
+            return res.status(401).json({ message: 'Invalid email or password' });
         }
 
         // Check if password match
         const isMatch = await bcrypt.compare(password, user.password_hash);
         if (!isMatch) {
-            return res.status(401).json({ message: 'Incorrect Password' }); // RETURN added so func stoppes here 
+            return res.status(401).json({ message: 'Invalid email or password' }); // RETURN added so func stoppes here 
         }
         console.log('SECRET:', process.env.JWT_SECRET);
         const token = jwt.sign( 

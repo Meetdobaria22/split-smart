@@ -82,7 +82,7 @@ export const login = async (req, res) => { // LOGIN CONTROLLER
         if (!isMatch) {
             return res.status(401).json({ message: 'Invalid email or password' }); // RETURN added so func stoppes here 
         }
-        console.log('SECRET:', process.env.JWT_SECRET);
+        //console.log('SECRET:', process.env.JWT_SECRET);
         const token = jwt.sign( 
             {user_id : user.user_id},
             process.env.JWT_SECRET,
